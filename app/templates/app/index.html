@@ -1,0 +1,21 @@
+{% extends "app/base.html" %}
+
+{% block title %}Главная{% endblock title %}
+
+{% block content %}
+<h1>Афиша мероприятий</h1>
+{% for event in events %}
+    <h3>{{ event.name }}</h3>
+    <p>{{ event.category}}</p>
+    <p>{{ event.date_time}}</p>
+    <p>{{ event.place}}</p>
+    {% if event.price == 0 %}
+        <p>Бесплатно</p>
+    {% else %}       
+        <p>{{ event.price}}</p>
+    {% endif %}
+    <a href="{% url 'event_detail' event.id event.slug %}">Подробнее</a>
+{% empty %}
+    <h1>Мероприятий пока нет</h1>
+{% endfor %}
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "app/base.html" %}
+
+{% block title %}Мероприятие{% endblock title %}
+
+{% block content %}
+    <h3>{{ event.name }}</h3>
+    <p>{{ event.category}}</p>
+    <p>{{ event.date_time}}</p>
+    <p>{{ event.place}}</p>
+    {% if event.price == 0 %}
+        <p>Бесплатно</p>
+    {% else %}       
+        <p>{{ event.price}}</p>
+    {% endif %}
+    <a href="{% url 'main' %}">← Назад</a>
+{% endblock content %}
