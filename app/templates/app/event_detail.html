@@ -3,14 +3,19 @@
 {% block title %}Мероприятие{% endblock title %}
 
 {% block content %}
-    <h3>{{ event.name }}</h3>
-    <p>{{ event.category}}</p>
-    <p>{{ event.date_time}}</p>
-    <p>{{ event.place}}</p>
-    {% if event.price == 0 %}
-        <p>Бесплатно</p>
-    {% else %}       
-        <p>{{ event.price}}</p>
+<article class="card detail">
+    <span class="badge">{{ event.category }}</span>
+    <h1>{{ event.name }}</h1>
+    <p class="meta">📅 {{ event.date_time|date:"d.m.Y H:i" }}</p>
+    <p class="meta">📍 {{ event.place }}</p>
+    {% if event.description %}
+        <p>{{ event.description }}</p>
     {% endif %}
-    <a href="{% url 'main' %}">← Назад</a>
+    {% if event.price == 0 %}
+        <p class="price free">Бесплатно</p>
+    {% else %}
+        <p class="price">{{ event.price }} ₸</p>
+    {% endif %}
+    <a href="{% url 'main' %}" class="btn btn-ghost">← Назад</a>
+</article>
 {% endblock content %}

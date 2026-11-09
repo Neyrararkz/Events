@@ -3,19 +3,43 @@
 {% block title %}Главная{% endblock title %}
 
 {% block content %}
-<h1>Афиша мероприятий</h1>
+<div class="page-head">
+    <h1>Афиша мероприятий</h1>
+    <a class="btn" href="{% url 'event_create' %}">+ Добавить мероприятие</a>
+</div>
+
+<form method="get" class="filters">
+    <input type="text" name="search" placeholder="Поиск" value="{{ search }}">
+    <select name="category" id="category-select" onchange="this.form.submit()">
+        <option value="all">Все</option>
+        {% for category in categories %}
+            <option value="{{ category.slug }}" {% if category_select == category.slug %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Найти</button>
+    <a href="{% url 'main' %}" class="btn btn-ghost">Сбросить</a>
+</form>
+
+<div class="events">
 {% for event in events %}
-    <h3>{{ event.name }}</h3>
-    <p>{{ event.category}}</p>
-    <p>{{ event.date_time}}</p>
-    <p>{{ event.place}}</p>
-    {% if event.price == 0 %}
-        <p>Бесплатно</p>
-    {% else %}       
-        <p>{{ event.price}}</p>
-    {% endif %}
-    <a href="{% url 'event_detail' event.id event.slug %}">Подробнее</a>
+    <article class="card">
+        <span class="badge">{{ event.category }}</span>
+        <h3>{{ event.name }}</h3>
+        <p class="meta">📅 {{ event.date_time|date:"d.m.Y H:i" }}</p>
+        <p class="meta">📍 {{ event.place }}</p>
+        {% if event.price == 0 %}
+            <p class="price free">Бесплатно</p>
+        {% else %}
+            <p class="price">{{ event.price }} ₸</p>
+        {% endif %}
+        <a class="btn" href="{% url 'event_detail' event.id event.slug %}">Подробнее</a>
+    </article>
 {% empty %}
-    <h1>Мероприятий пока нет</h1>
+    {% if search or category_select != 'all' %}
+        <p class="empty">По вашему запросу ничего не найдено</p>
+    {% else %}
+        <p class="empty">Мероприятий пока нет</p>
+    {% endif %}
 {% endfor %}
+</div>
 {% endblock content %}

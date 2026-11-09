@@ -1,15 +1,16 @@
-from django.forms import ModelForm, TextInput, DateTimeInput, DecimalField, Select
+from django.forms import ModelForm, TextInput, DateTimeInput, NumberInput, Select
 from .models import Event
 
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'category', 'description', 'place', 'date_time', 'price']
+        fields = ['category', 'name', 'description', 'place', 'date_time', 'price']
 
-        widgets = {
+        widgets = {   
+            "category": Select(),   
             "name": TextInput(attrs={
                 "placeholder": "Название"
-            }),            
+            }),       
             "description": TextInput(attrs={
                 "placeholder": "Описание"
             }),            
@@ -17,6 +18,9 @@ class EventForm(ModelForm):
                 "placeholder": "Место"
             }),            
             "date_time": DateTimeInput(attrs={
-                "placeholder": "Дата и время"
+                "type": "datetime-local"
+            }),            
+            "price": NumberInput(attrs={
+                "placeholder": "Стоимость"
             })
         }

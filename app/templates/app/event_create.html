@@ -1,7 +1,13 @@
 {% extends "app/base.html" %}
 
-{% block title %}Добавление мероприятия{% endblock title %}
+{% block title %}Новое мероприятие{% endblock title %}
 
 {% block content %}
-{% csrf_token %}
+<h1>Новое мероприятие</h1>
+<form method="post" class="form">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn">Опубликовать</button>
+</form>
+<a href="{% url 'main' %}" class="btn btn-ghost">← Назад</a>
 {% endblock content %}
